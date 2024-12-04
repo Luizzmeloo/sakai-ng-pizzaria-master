@@ -27,7 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     imports: [
         AppRoutingModule,
         AppLayoutModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         FormsModule,
         MultiSelectModule,
