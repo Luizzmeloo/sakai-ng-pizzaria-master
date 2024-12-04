@@ -23,6 +23,8 @@ export class PedidoComponent implements OnInit {
 
     itens: Pizza[] = [];
 
+    nomePedido: Pizza[] ;
+
     
 
     pedido: Pedido = this.createEmptyPedido();
@@ -114,8 +116,10 @@ export class PedidoComponent implements OnInit {
     savePedido() {
         this.submitted = true;
     
+        console.log(this.pedido.itens);
+        
         // Validate cliente and itens
-        if (this.pedido.cliente && this.pedido.itens && this.pedido.itens.length > 0) {
+        if (this.pedido.itens.length > 0) {
             // Calculate total price, ensuring price is a number
             this.pedido.total = this.pedido.itens.reduce((sum, product) => sum + (product.price || 0), 0);
     
@@ -208,30 +212,27 @@ export class PedidoComponent implements OnInit {
     }
 
     valorTotal(event: any) {
-        const total = event.value.price; // Verifique se event.value contém 'price'
-        const itens = event.value.itens; // Verifique se event.value contém 'itens'
-        
-        // Verifique se 'itens' é um array válido
-        if (Array.isArray(itens)) {
-            this.pedido.itens = itens;
-        } else {
-            console.error('Itens inválidos:', itens);
-        }
+        const itemSelecionado = event.value;
     
-        // Verifique se 'total' é um número válido
-        if (typeof total === 'number' && !isNaN(total)) {
-            this.pedido.total = total;
+        this.nomePedido = this.pedido.itens 
+        if (itemSelecionado) {
+            this.pedido.itens = [itemSelecionado]; // Transforma o item único em array
+            this.pedido.total = itemSelecionado.price || 0;
         } else {
-            console.error('Total inválido:', total);
+            console.error('Nenhum item selecionado.');
         }
     }
+    
+    
     
     cliente(event: any) {
         const nameCliente = event.value; // Verifique se 'event.value' contém o nome do cliente
         
         if (nameCliente && nameCliente.nome) {
             this.pedido.cliente = nameCliente;
+            console.log('aiiiiiiiin');
         } else {
+            console.log('droga');
             console.error('Cliente inválido:', nameCliente);
         }
     }

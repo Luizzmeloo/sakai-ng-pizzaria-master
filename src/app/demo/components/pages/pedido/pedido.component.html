@@ -70,15 +70,17 @@
                     <label for="itens">Produtos</label>
                     <p-dropdown 
                         [options]="itens" 
-                        [(ngModel)]="pedido.itens" 
+                        [(ngModel)]="nomeI" 
+                        [multiple]="true" 
                         optionLabel="name" 
                         placeholder="Selecione os Produtos" 
-                        (onChange) = "valorTotal($event)"
+                        (onChange)="valorTotal($event)"
                         required 
                         [ngClass]="{'ng-invalid ng-dirty': submitted && (!pedido.itens || pedido.itens.length === 0)}">
                     </p-dropdown>
                     <small *ngIf="submitted && (!pedido.itens || pedido.itens.length === 0)" class="p-error">Produtos são obrigatórios.</small>
                 </div>
+                
         
                 <!-- Total -->
                 <div class="field">
