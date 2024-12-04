@@ -19,9 +19,11 @@ export class PedidoComponent implements OnInit {
     deletePedidosDialog: boolean = false;
 
     pedidos: Pedido[] = [];
-    clientes: Cliente[] = []; // List of clientes
+    clientes: Cliente[] = [];
 
     itens: Pizza[] = [];
+
+    
 
     pedido: Pedido = this.createEmptyPedido();
     selectedPedidos: Pedido[] = [];
@@ -42,10 +44,8 @@ export class PedidoComponent implements OnInit {
     ngOnInit() {
         // Fetch products from Firebase
         this.pizzaService.getPizzas().subscribe((data) => {
-            this.itens = data.map((pizza) => ({
-                ...pizza, // Retain all existing properties
-                id: pizza.key, // Use the `key` as a unique identifier
-            }));
+            
+            this.itens = data;
             console.log('Normalized Products:', this.itens);
         });
 
@@ -113,30 +113,66 @@ export class PedidoComponent implements OnInit {
 
     savePedido() {
         this.submitted = true;
-
+    
         // Validate cliente and itens
         if (this.pedido.cliente && this.pedido.itens && this.pedido.itens.length > 0) {
-            // Calculate total price
-            this.pedido.total = this.pedido.itens.reduce((sum, product) => sum + product.price, 0);
-
+            // Calculate total price, ensuring price is a number
+            this.pedido.total = this.pedido.itens.reduce((sum, product) => sum + (product.price || 0), 0);
+    
             if (this.pedido.id) {
                 // Update existing pedido
-                this.pedidoService.updatePedido(this.pedido.id, this.pedido).then(() => {
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pedido Updated', life: 3000 });
-                    this.pedidos = this.pedidos.map((val) => (val.id === this.pedido.id ? this.pedido : val));
-                });
+                this.pedidoService.updatePedido(this.pedido.id, this.pedido)
+                    .then(() => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Successful',
+                            detail: 'Pedido Updated',
+                            life: 3000
+                        });
+    
+                        // Update pedido in local list
+                        this.pedidos = this.pedidos.map(val => val.id === this.pedido.id ? this.pedido : val);
+                    })
+                    .catch((error) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erro',
+                            detail: 'Erro ao atualizar pedido: ' + error.message,
+                            life: 3000
+                        });
+                    });
             } else {
                 // Create new pedido
-                this.pedido.id = this.createId();
-                this.pedidoService.createPedido(this.pedido).subscribe(() => {
-                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Pedido Created', life: 3000 });
-                    this.pedidos.push({ ...this.pedido });
-                });
+                this.pedido.id = this.createId(); // Generate new ID if not present
+                this.pedidoService.createPedido(this.pedido)
+                    .subscribe({
+                        next: () => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Successful',
+                                detail: 'Pedido Created',
+                                life: 3000
+                            });
+    
+                            // Add newly created pedido to local list
+                            this.pedidos.push({ ...this.pedido });
+                        },
+                        error: (error) => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: 'Erro',
+                                detail: 'Erro ao criar pedido: ' + error.message,
+                                life: 3000
+                            });
+                        }
+                    });
             }
-
+    
+            // Close the dialog and reset pedido object
             this.pedidoDialog = false;
             this.pedido = this.createEmptyPedido();
         } else {
+            // Validation error
             this.messageService.add({
                 severity: 'error',
                 summary: 'Erro',
@@ -145,6 +181,8 @@ export class PedidoComponent implements OnInit {
             });
         }
     }
+    
+    
 
     createEmptyPedido(): Pedido {
         return {
@@ -168,5 +206,35 @@ export class PedidoComponent implements OnInit {
         console.log('Available Products:', this.itens);
         console.log('Selected Itens:', this.pedido.itens);
     }
+
+    valorTotal(event: any) {
+        const total = event.value.price; // Verifique se event.value contém 'price'
+        const itens = event.value.itens; // Verifique se event.value contém 'itens'
+        
+        // Verifique se 'itens' é um array válido
+        if (Array.isArray(itens)) {
+            this.pedido.itens = itens;
+        } else {
+            console.error('Itens inválidos:', itens);
+        }
+    
+        // Verifique se 'total' é um número válido
+        if (typeof total === 'number' && !isNaN(total)) {
+            this.pedido.total = total;
+        } else {
+            console.error('Total inválido:', total);
+        }
+    }
+    
+    cliente(event: any) {
+        const nameCliente = event.value; // Verifique se 'event.value' contém o nome do cliente
+        
+        if (nameCliente && nameCliente.nome) {
+            this.pedido.cliente = nameCliente;
+        } else {
+            console.error('Cliente inválido:', nameCliente);
+        }
+    }
+    
     
 }

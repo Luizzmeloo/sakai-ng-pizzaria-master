@@ -57,6 +57,8 @@
                         [(ngModel)]="pedido.cliente" 
                         optionLabel="nome" 
                         placeholder="Selecione um Cliente" 
+                        (onChange) = "cliente($event)"
+
                         required 
                         [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.cliente}">
                     </p-dropdown>
@@ -65,16 +67,17 @@
         
                 <!-- Itens Multi-Select -->
                 <div class="field">
-                    <label for="itens">Itens</label>
-                    <p-multiSelect 
+                    <label for="itens">Produtos</label>
+                    <p-dropdown 
                         [options]="itens" 
                         [(ngModel)]="pedido.itens" 
                         optionLabel="name" 
                         placeholder="Selecione os Produtos" 
+                        (onChange) = "valorTotal($event)"
                         required 
                         [ngClass]="{'ng-invalid ng-dirty': submitted && (!pedido.itens || pedido.itens.length === 0)}">
-                    </p-multiSelect>
-                    <small *ngIf="submitted && (!pedido.itens || pedido.itens.length === 0)" class="p-error">Itens são obrigatórios.</small>
+                    </p-dropdown>
+                    <small *ngIf="submitted && (!pedido.itens || pedido.itens.length === 0)" class="p-error">Produtos são obrigatórios.</small>
                 </div>
         
                 <!-- Total -->

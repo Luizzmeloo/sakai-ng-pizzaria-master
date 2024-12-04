@@ -1,13 +1,13 @@
 
 export const environment = {
   production: true,
-  firebaseConfig: {
-    apiKey: 'AIzaSyBxteluSBb6wmxo067VNBHAs5Erawm7Ic4',
-    authDomain: 'pizzaria-nr-angular.firebaseapp.com',
-    databaseURL: 'https://pizzaria-nr-angular-default-rtdb.firebaseio.com',
-    projectId: 'pizzaria-nr-angular',
-    storageBucket: 'pizzaria-nr-angular.firebasestorage.app',
-    messagingSenderId: '308914607422',
-    appId: '1:308914607422:web:7de6a26eae6a1f2da7486f'
+  firebase: {
+    apiKey: 'AIzaSyD9F2YA4aHh_7ld76K7Hw2E5B9axEl4JOk',
+    authDomain: 'crud-sportpizzas.firebaseapp.com',
+    databaseURL: 'https://crud-sportpizzas-default-rtdb.firebaseio.com',
+    projectId: 'crud-sportpizzas',
+    storageBucket: 'crud-sportpizzas.firebasestorage.app',
+    messagingSenderId: '325929883080',
+    appId: '1:325929883080:web:8e31bba370f64e7536dcfd'
   }
 };
