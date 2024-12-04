@@ -1,0 +1,127 @@
+<div class="flex flex-column align-items-center justify-content-center min-h-screen">
+    <div class="surface-card py-8 px-5 sm:px-8" style="border-radius:15px; width: 30rem;">
+        <h2 class="text-center mb-4">Editar Perfil</h2>
+        <form (ngSubmit)="updateProfile()">
+            <!-- Nome -->
+            <label for="nome" class="block text-900 text-xl font-medium mb-2">Nome</label>
+            <input
+                id="nome"
+                type="text"
+                [(ngModel)]="profile.nome"
+                name="nome"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Telefone -->
+            <label for="telefone" class="block text-900 text-xl font-medium mb-2">Telefone</label>
+            <input
+                id="telefone"
+                type="text"
+                [(ngModel)]="profile.telefone"
+                name="telefone"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- CPF -->
+            <label for="cpf" class="block text-900 text-xl font-medium mb-2">CPF</label>
+            <input
+                id="cpf"
+                type="text"
+                [(ngModel)]="profile.cpf"
+                name="cpf"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Sexo -->
+            <label for="sexo" class="block text-900 text-xl font-medium mb-2">Sexo</label>
+            <select
+                id="sexo"
+                [(ngModel)]="profile.sexo"
+                name="sexo"
+                class="w-full mb-3"
+                style="padding:1rem"
+            >
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outro">Outro</option>
+            </select>
+
+            <!-- CEP -->
+            <label for="cep" class="block text-900 text-xl font-medium mb-2">CEP</label>
+            <input
+                id="cep"
+                type="text"
+                [(ngModel)]="profile.cep"
+                name="cep"
+                class="w-full mb-3"
+                style="padding:1rem"
+                (blur)="fetchAddress()"
+            />
+
+            <!-- Rua -->
+            <label for="rua" class="block text-900 text-xl font-medium mb-2">Rua</label>
+            <input
+                id="rua"
+                type="text"
+                [(ngModel)]="profile.rua"
+                name="rua"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Bairro -->
+            <label for="bairro" class="block text-900 text-xl font-medium mb-2">Bairro</label>
+            <input
+                id="bairro"
+                type="text"
+                [(ngModel)]="profile.bairro"
+                name="bairro"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Número -->
+            <label for="numero" class="block text-900 text-xl font-medium mb-2">Número</label>
+            <input
+                id="numero"
+                type="number"
+                [(ngModel)]="profile.numero"
+                name="numero"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Estado -->
+            <label for="estado" class="block text-900 text-xl font-medium mb-2">Estado</label>
+            <input
+                id="estado"
+                type="text"
+                [(ngModel)]="profile.estado"
+                name="estado"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Cidade Dropdown -->
+            <label for="cidade" class="block text-900 text-xl font-medium mb-2">Cidade</label>
+            <input
+                id="cidade"
+                type="text"
+                [(ngModel)]="profile.cidade"
+                name="cidade"
+                class="w-full mb-3"
+                style="padding:1rem"
+            />
+
+            <!-- Save Button -->
+            <button [disabled]="saving" class="w-full p-button p-button-success mt-4">
+                <span *ngIf="saving" class="pi pi-spin pi-spinner"></span>
+                <span *ngIf="!saving">Salvar mudanças</span>
+              </button>
+              
+        </form>
+    </div>
+</div>
