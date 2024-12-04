@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "start": "node set-env.js && ng serve",
-        "build": "npm i --legacy-peer-deps && ng build",
+        "build": "node set-env.js && ng build",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
